@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyek Sinergi: Tantangan Saldo Emosi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                        glassBorder: 'rgba(255, 255, 255, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at 10% 20%, rgb(15, 23, 42) 0%, rgb(30, 41, 59) 90%);
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Keyframe Animations */
+        @keyframes pulse-gentle {
+            0%, 100% { opacity: 0.9; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        .pulse-element {
+            animation: pulse-gentle 4s infinite ease-in-out;
+        }
+        /* Pulse for target balance bar */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(56, 189, 248, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
+        }
+        .pulse-glow-blue {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen justify-between p-4 sm:p-6 md:p-8">
+
+    <!-- Top Audio & Utility Bar -->
+    <div class="w-full max-w-4xl mx-auto mb-4 flex justify-between items-center z-10">
+        <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-widest text-sky-400 bg-sky-950/50 px-3 py-1 rounded-full border border-sky-800/30">
+                LMS Interactive Learning
+            </span>
+        </div>
+        <button id="btn-audio" onclick="toggleAudio()" class="glass-card hover:bg-white/10 text-white p-2.5 rounded-full transition-all duration-300 flex items-center justify-center focus:outline-none" title="Mute/Unmute Musik">
+            <!-- Speaker Icon -->
+            <svg id="svg-audio-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path id="audio-wave-1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14a3 3 0 000-4" />
+                <path id="audio-wave-2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.07 17.07a6 6 0 000-10.14" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Main Dynamic Content Area -->
+    <main id="game-container" class="w-full max-w-4xl mx-auto flex-grow flex items-center justify-center z-10 mb-8">
+        
+        <!-- SCREEN 1: THE GATEWAY & MISSION BRIEFING -->
+        <div id="screen-gateway" class="glass-panel rounded-3xl p-6 sm:p-8 md:p-10 w-full transition-all duration-500 transform scale-100 opacity-100 flex flex-col justify-between">
+            <div>
+                <div class="text-center mb-6">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                        PROYEK SINERGI
+                    </h1>
+                    <p class="text-sm sm:text-base text-slate-400 mt-2 font-medium">Tantangan Kepemimpinan & Saldo Emosi (Emotional Bank Account)</p>
+                </div>
+
+                <!-- HOOK (WHY) -->
+                <div class="glass-card rounded-2xl p-5 mb-6 border-l-4 border-amber-500 bg-amber-500/5">
+                    <p class="text-amber-300 text-xs font-semibold tracking-wider uppercase mb-1">🚨 PANGGILAN PENTING:</p>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed font-medium">
+                        "Tahukah Anda? 90% proyek krusial gagal bukan karena kendala teknis, melainkan runtuhnya komunikasi dan rasa saling percaya di antara tim. Berapa banyak 'saldo emosi' yang sudah Anda simpan, atau justru habis Anda tarik setiap harinya?"
+                    </p>
+                </div>
+
+                <!-- Form Input User -->
+                <form id="form-auth" onsubmit="submitGateway(event)" class="space-y-4 max-w-md mx-auto">
+                    <div>
+                        <label for="input-name" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Nama Lengkap Anda</label>
+                        <input type="text" id="input-name" required class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all" placeholder="Masukkan nama lengkap Anda...">
+                    </div>
+                    <div>
+                        <label for="input-nik" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Nomor Induk Karyawan (NIK)</label>
+                        <input type="text" id="input-nik" required class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all" placeholder="Masukkan NIK Anda...">
+                    </div>
+                    <button type="submit" class="w-full py-4 mt-2 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold tracking-wide shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 transform active:scale-[0.98]">
+                        MASUK KE MISSION BRIEFING &rarr;
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: MISSION BRIEFING & RULES -->
+        <div id="screen-briefing" class="hidden glass-panel rounded-3xl p-6 sm:p-8 md:p-10 w-full transition-all duration-500 transform scale-95 opacity-0 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-2 h-8 bg-sky-500 rounded-full"></div>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-wide">MISSION BRIEFING: PROYEK SINERGI</h2>
+                </div>
+                
+                <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+                    <p>
+                        Halo <span id="briefing-user-name" class="font-bold text-sky-400">Alex</span> (NIK: <span id="briefing-user-nik" class="font-mono text-slate-400"></span>), Anda baru saja ditunjuk sebagai <strong class="text-white">Project Lead</strong> untuk meluncurkan <strong class="text-white">Proyek Sinergi</strong>. 
+                        Tantangan Anda adalah mengoordinasikan tim lintas divisi yang memiliki karakteristik unik: senior skeptis, anggota sensitif, dan klien internal penuntut.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-sky-300 mb-2 flex items-center gap-2 text-xs uppercase tracking-wide">
+                                🎯 Aturan Permainan
+                            </h3>
+                            <ul class="space-y-1.5 text-xs text-slate-400">
+                                <li>• Selesaikan <strong class="text-white">10 Tantangan Skenario Beranting</strong> harian.</li>
+                                <li>• Setiap pilihan memiliki konsekuensi langsung pada tim.</li>
+                                <li>• Menangkan <strong class="text-emerald-400">Sertifikat & Lencana Emas</strong>.</li>
+                            </ul>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-sky-300 mb-2 flex items-center gap-2 text-xs uppercase tracking-wide">
+                                ⚖️ Mekanik Saldo Emosi
+                            </h3>
+                            <ul class="space-y-1.5 text-xs text-slate-400">
+                                <li>• <strong class="text-sky-400">Setoran (Deposit)</strong>: Tindakan berempati, suportif, dan tulus menambah saldo emosional Anda.</li>
+                                <li>• <strong class="text-rose-400">Tarikan (Withdrawal)</strong>: Tindakan defensif, menyalahkan, mengabaikan, mengurangi saldo.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Indikator Target & Awal -->
+                    <div class="glass-card p-4 rounded-xl border border-sky-500/20 bg-sky-500/5 flex items-center justify-between gap-4">
+                        <div class="flex-1">
+                            <span class="text-xs font-semibold text-sky-300 uppercase tracking-wider block mb-1">Status Target Minimal</span>
+                            <p class="text-xs text-slate-400">Mencapai saldo emosi akhir minimal <strong class="text-sky-400">70%</strong> untuk membuka "Trust-Based Good Ending".</p>
+                        </div>
+                        <div class="text-center px-4 py-2 bg-sky-950/50 rounded-lg border border-sky-800/30">
+                            <span class="text-xs text-slate-400 block">Mulai</span>
+                            <span class="text-xl font-extrabold text-sky-400">50%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    <button onclick="startGame()" class="flex-1 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-extrabold tracking-wide transition-all duration-300 shadow-lg shadow-emerald-500/20 transform hover:-translate-y-0.5 active:translate-y-0">
+                        SAYA SIAP MEMULAI PROYEK SINERGI!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: CORE EXECUTION (GAMEPLAY SCREEN) -->
+        <div id="screen-game" class="hidden w-full flex flex-col gap-4">
+            
+            <!-- Dashboard / Status Header -->
+            <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                
+                <!-- Identitas User & Lencana Terbuka -->
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-md" id="user-avatar">
+                        A
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-white flex items-center gap-2">
+                            <span id="player-profile-name">Alex</span>
+                        </div>
+                        <div class="text-xs text-slate-400" id="player-profile-nik">NIK: </div>
+                    </div>
+                </div>
+
+                <!-- Live Badges Holder -->
+                <div class="flex items-center gap-2" id="badges-earned-container">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mr-1">Lencana:</span>
+                    <span id="badge-novice" class="opacity-30 grayscale text-[10px] px-2 py-1 rounded bg-slate-800 border border-slate-700 font-bold transition-all duration-300">🥉 NOVICE</span>
+                    <span id="badge-trustee" class="opacity-30 grayscale text-[10px] px-2 py-1 rounded bg-slate-800 border border-slate-700 font-bold transition-all duration-300">🥈 TRUSTEE</span>
+                    <span id="badge-empathy" class="opacity-30 grayscale text-[10px] px-2 py-1 rounded bg-slate-800 border border-slate-700 font-bold transition-all duration-300">🥇 CHAMPION</span>
+                </div>
+            </div>
+
+            <!-- Main Interactive Area -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                
+                <!-- Left Panel: Scenario & Options (8 Columns) -->
+                <div class="lg:col-span-8 glass-panel rounded-3xl p-6 flex flex-col justify-between min-h-[420px]">
+                    <div>
+                        <!-- Header Skenario & Indikator Level/Skenario Ke-x -->
+                        <div class="flex justify-between items-center mb-4">
+                            <span id="scenario-difficulty" class="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                Skenario Dasar (1/10)
+                            </span>
+                            <span class="text-xs text-slate-400">
+                                Pertanyaan <strong class="text-white" id="scenario-index-label">1</strong> dari <strong class="text-slate-400">10</strong>
+                            </span>
+                        </div>
+
+                        <!-- Narasi Cerita -->
+                        <div class="mb-6">
+                            <div class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Situasi Hari Ini:</div>
+                            <h3 id="scenario-text" class="text-base sm:text-lg font-bold leading-relaxed text-slate-100">
+                                Skenario sedang dimuat...
+                            </h3>
+                        </div>
+
+                        <!-- Opsi / Keputusan -->
+                        <div class="space-y-3" id="options-container">
+                            <!-- Opsi akan dimasukkan secara dinamis di sini -->
+                        </div>
+                    </div>
+
+                    <!-- Hint / Teori Penolong -->
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-start gap-2 text-xs text-slate-400">
+                        <span class="text-sky-400 font-bold uppercase tracking-wider block mt-0.5">💡 TIP COVEY:</span>
+                        <p id="scenario-hint" class="leading-relaxed">
+                            Pikirkan cara membangun tabungan rasa aman secara jangka panjang sebelum bertindak cepat.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Stat & Progress Bar (4 Columns) -->
+                <div class="lg:col-span-4 flex flex-col gap-4">
+                    
+                    <!-- Progress Permainan Keseluruhan -->
+                    <div class="glass-panel rounded-2xl p-5 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold tracking-widest text-slate-400 uppercase block mb-2">Progres Perjalanan</span>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs text-slate-400" id="progress-percent">0% selesai</span>
+                                <span class="text-xs font-bold text-white" id="progress-fraction">0/10 Tantangan</span>
+                            </div>
+                            <div class="w-full bg-slate-900/60 rounded-full h-2.5 overflow-hidden border border-slate-800">
+                                <div id="progress-bar-fill" class="bg-gradient-to-r from-sky-400 to-indigo-500 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meteran Saldo Emosi Utama -->
+                    <div class="glass-panel rounded-2xl p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold tracking-widest text-slate-400 uppercase block">Saldo Emosi Anda</span>
+                                <span class="text-2xl font-black text-sky-400" id="emotional-balance-value">50%</span>
+                            </div>
+                            
+                            <!-- Visual Ring Meter Core -->
+                            <div class="relative flex items-center justify-center my-4">
+                                <div class="w-28 h-28 rounded-full border-4 border-slate-800 flex flex-col items-center justify-center relative overflow-hidden" id="balance-circle">
+                                    <div id="balance-liquid-fill" class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-sky-600/40 via-indigo-500/30 to-sky-400/20 transition-all duration-700 ease-out" style="height: 50%;"></div>
+                                    <span class="text-xs text-slate-400 uppercase tracking-widest font-bold z-10">Balance</span>
+                                    <span class="text-xl font-extrabold text-white z-10" id="balance-circle-text">Netral</span>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-center text-slate-400 leading-relaxed">
+                                Kepercayaan tim bergantung pada level saldo ini. Pertahankan di atas <strong class="text-emerald-400">70%</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Score Box -->
+                        <div class="mt-4 pt-4 border-t border-slate-800/80 flex justify-between items-center text-xs text-slate-400">
+                            <span>Skor Kuis Aktual:</span>
+                            <span class="font-extrabold text-white text-base" id="score-text">0 Poin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: INSTANT FEEDBACK MODAL -->
+        <div id="feedback-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="glass-panel rounded-3xl max-w-lg w-full p-6 sm:p-8 transform scale-95 opacity-0 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <!-- Type Indicator Box -->
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="feedback-type-badge" class="text-xs font-extrabold tracking-widest uppercase px-3 py-1 rounded-full">
+                            Deposit (+)
+                        </span>
+                        <span id="feedback-score-gained" class="text-xs font-bold text-slate-400">
+                            +10 Poin
+                        </span>
+                    </div>
+
+                    <!-- Feedback Title & Covey Theory Connection -->
+                    <h3 id="feedback-title" class="text-lg sm:text-xl font-bold text-white mb-3">
+                        Keputusan Memiliki Dampak!
+                    </h3>
+                    
+                    <p id="feedback-desc" class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Penjelasan lengkap mengenai pilihan di sini...
+                    </p>
+
+                    <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-800 mb-6">
+                        <span class="text-[10px] font-bold text-sky-400 tracking-wider uppercase block mb-1">🔍 Relevansi Teori Covey:</span>
+                        <p id="feedback-theory" class="text-xs text-slate-400 leading-relaxed">
+                            Ulasan mengenai korelasi pilihan tersebut dengan Emotional Bank Account (Covey).
+                        </p>
+                    </div>
+                </div>
+
+                <button onclick="closeFeedbackAndContinue()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold tracking-wide transition-all shadow-md active:scale-95">
+                    LANJUTKAN MISI &rarr;
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: POST-ACTION DEBRIEF & MULTIPLE ENDINGS -->
+        <div id="screen-debrief" class="hidden glass-panel rounded-3xl p-6 sm:p-8 md:p-10 w-full transition-all duration-500 transform scale-95 opacity-0 flex flex-col justify-between">
+            <div>
+                <!-- Heading -->
+                <div class="text-center mb-6">
+                    <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase bg-emerald-950/40 px-3 py-1 rounded-full border border-emerald-800/30 inline-block mb-2">
+                        MISI SELESAI
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">HASIL KELAYAKAN PROYEK SINERGI</h2>
+                </div>
+
+                <!-- Ending Visual Status Card -->
+                <div id="ending-card" class="glass-card rounded-2xl p-6 border-l-4 mb-6">
+                    <h3 id="ending-title" class="text-lg sm:text-xl font-extrabold text-white mb-2">
+                        Memuat Ending...
+                    </h3>
+                    <p id="ending-description" class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Evaluasi terhadap seluruh tindakan Anda di masa lalu menunjukkan...
+                    </p>
+                </div>
+
+                <!-- Stats Summary Block -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <span class="text-[10px] font-medium text-slate-400 uppercase block">Saldo Akhir</span>
+                        <span id="final-balance" class="text-lg font-bold text-sky-400">50%</span>
+                    </div>
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <span class="text-[10px] font-medium text-slate-400 uppercase block">Skor Kuis</span>
+                        <span id="final-score" class="text-lg font-bold text-emerald-400">0 / 100</span>
+                    </div>
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <span class="text-[10px] font-medium text-slate-400 uppercase block">Jumlah Setoran</span>
+                        <span id="final-deposits" class="text-lg font-bold text-sky-300">0</span>
+                    </div>
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <span class="text-[10px] font-medium text-slate-400 uppercase block">Jumlah Tarikan</span>
+                        <span id="final-withdrawals" class="text-lg font-bold text-rose-400">0</span>
+                    </div>
+                </div>
+
+                <!-- Lencana Akhir & Reinforcement -->
+                <div class="glass-card rounded-2xl p-5 border border-slate-800/80 mb-6 flex flex-col md:flex-row items-center gap-4">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 to-yellow-600 flex items-center justify-center text-slate-900 font-black shadow-lg text-2xl flex-shrink-0" id="final-badge-icon">
+                        🏆
+                    </div>
+                    <div>
+                        <span class="text-xs font-extrabold text-amber-400 uppercase tracking-widest block">LENCANA TERTINGGI:</span>
+                        <h4 id="final-badge-title" class="text-base font-bold text-white mb-1">PROYEK SINERGI CHAMPION</h4>
+                        <p id="final-reinforcement" class="text-xs text-slate-400 leading-relaxed">
+                            Kalimat apresiasi khusus / penguatan kognitif berdasarkan total performa saldo emosional Anda.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Action Button untuk Reset/Selesai -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button onclick="restartGame()" class="flex-1 py-3.5 rounded-xl border border-slate-700 hover:bg-white/5 font-semibold text-sm transition-all">
+                        Coba Lagi (Ulangi Skenario)
+                    </button>
+                    <button onclick="exportResultToLMS()" class="flex-1 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-900 font-extrabold text-sm tracking-wide transition-all shadow-md shadow-sky-500/20">
+                        Kirim Hasil Nilai ke LMS &rarr;
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="w-full max-w-4xl mx-auto text-center py-2 z-10">
+        <p class="text-slate-500 text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
+            Education & Training Dept. &copy; 2026
+        </p>
+    </footer>
+
+    <!-- Audio System - Web Audio API (Sintesis Langsung tanpa Eksternal Aset) -->
+    <script>
+        // Inisialisasi State Audio Web
+        let audioCtx = null;
+        let bgmNode = null;
+        let isMuted = false;
+
+        // Fungsi membuat synthesizer suara ringan
+        function initAudio() {
+            if (audioCtx) return;
+            // Support multi-browser
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            startBGM();
+        }
+
+        // Loopable Background Music Synthesizer (Warm & Pleasant Instrumental Lofi)
+        function startBGM() {
+            if (!audioCtx || bgmNode) return;
+
+            // Membuat buffer synthesizer berdurasi 8 detik untuk melodi yang lebih panjang & variatif
+            const duration = 8;
+            const bufferSize = audioCtx.sampleRate * duration;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            // Progresi akor mayor yang hangat & menyenangkan (C - G - Am - F)
+            const chords = [
+                [130.81, 164.81, 196.00], // C Maj (C3, E3, G3)
+                [98.00, 146.83, 196.00],  // G Maj (G2, D3, G3)
+                [110.00, 130.81, 220.00], // A Min (A2, C3, A3)
+                [87.31, 130.81, 174.61]   // F Maj (F2, C3, F3)
+            ];
+
+            // Nada melodi pentatonis mayor yang ceria & manis
+            const melodyPattern = [
+                261.63, 293.66, 329.63, 392.00, 440.00, // C4, D4, E4, G4, A4
+                523.25, 587.33, 659.25, 783.99, 880.00  // C5, D5, E5, G5, A5
+            ];
+
+            // Pola langkah instrumen melodi
+            const melodySteps = [2, 4, 7, 3, 5, 2, 8, 4];
+            const totalSteps = 16;
+            const stepDuration = duration / totalSteps; // 0.5 detik per ketukan (120 BPM)
+
+            for (let i = 0; i < bufferSize; i++) {
+                const t = i / audioCtx.sampleRate;
+                const step = Math.floor(t / stepDuration) % totalSteps;
+                const chordIndex = Math.floor(step / 4) % 4;
+                const currentChord = chords[chordIndex];
+
+                // 1. Synthesize Warm Pad (Akor pengiring yang lembut di latar)
+                let padVal = 0;
+                for (let note of currentChord) {
+                    // Sine wave untuk nada rendah yang bulat
+                    padVal += Math.sin(2 * Math.PI * note * t) * 0.4;
+                    // Triangle wave untuk tekstur analog yang hangat
+                    const tri = Math.abs((t * (note * 2)) % 1 - 0.5) * 4 - 1;
+                    padVal += tri * 0.2;
+                }
+                padVal /= 3; // Normalisasi volume akor
+
+                // 2. Synthesize Cheerful Pluck (Melodi instrumen yang menyenangkan)
+                let melodyVal = 0;
+                const stepTime = t % stepDuration;
+                
+                // Melodi aktif pada ketukan tertentu untuk ritme yang santai
+                const playMelody = (step % 2 === 0 || step % 3 === 0);
+                if (playMelody) {
+                    const noteHz = melodyPattern[melodySteps[step % melodySteps.length]];
+                    // Gelombang sinus jernih
+                    const sineMel = Math.sin(2 * Math.PI * noteHz * t);
+                    // Efek peluruhan pluck (decay) yang renyah
+                    const env = Math.exp(-9 * stepTime);
+                    melodyVal = sineMel * env * 0.5;
+                }
+
+                // 3. Campurkan akor dasar (pad) dengan melodi ceria
+                data[i] = (padVal * 0.45 + melodyVal * 0.55) * 0.12; 
+            }
+
+            // Hubungkan buffer source
+            bgmNode = audioCtx.createBufferSource();
+            bgmNode.buffer = buffer;
+            bgmNode.loop = true;
+
+            // Kontrol Volume Utama
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime); // Volume instrumen pas & tidak berisik
+            
+            bgmNode.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            bgmNode.start();
+        }
+
+        // SFX: Play Positive Sound (Deposit)
+        function playSFXDeposit() {
+            if (isMuted || !audioCtx) return;
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            osc1.type = 'triangle';
+            osc2.type = 'sine';
+            
+            // Harmonious chords (C major to G major)
+            osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc1.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.15); // C6
+            
+            osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+            osc2.frequency.exponentialRampToValueAtTime(1318.51, audioCtx.currentTime + 0.15); // E6
+
+            gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            osc1.connect(gainNode);
+            osc2.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            osc1.start();
+            osc2.start();
+            osc1.stop(audioCtx.currentTime + 0.3);
+            osc2.stop(audioCtx.currentTime + 0.3);
+        }
+
+        // SFX: Play Negative Sound (Withdrawal)
+        function playSFXWithdrawal() {
+            if (isMuted || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            osc.type = 'sawtooth';
+            // Dismal descending tone
+            osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(90, audioCtx.currentTime + 0.3);
+
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.35);
+        }
+
+        // Mute / Unmute Logic
+        function toggleAudio() {
+            initAudio(); // Jalankan audio jika belum diinisialisasi
+            const icon = document.getElementById('svg-audio-icon');
+            const wave1 = document.getElementById('audio-wave-1');
+            const wave2 = document.getElementById('audio-wave-2');
+            
+            if (isMuted) {
+                // Unmute
+                isMuted = false;
+                wave1.style.opacity = '1';
+                wave2.style.opacity = '1';
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+            } else {
+                // Mute
+                isMuted = true;
+                wave1.style.opacity = '0.1';
+                wave2.style.opacity = '0.1';
+                if (audioCtx.state === 'running') {
+                    audioCtx.suspend();
+                }
+            }
+        }
+    </script>
+
+    <!-- Game Logic & Skenario (10 Soal Berdasarkan Teori Covey) -->
+    <script>
+        // Database Skenario 10 Soal Gamifikasi
+        const scenarios = [
+            {
+                id: 1,
+                difficulty: "Dasar (Mudah)",
+                difficultyStyle: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+                narrative: "Hari pertama Proyek Sinergi. Senior Anda, Pak Budi, dengan skeptis berkomentar dalam grup proyek: 'Proyek semacam ini biasanya hanya berujung menjadi tumpukan dokumen tanpa hasil nyata.' Respons terbaik Anda:",
+                options: [
+                    {
+                        text: "Membalas personal: 'Mohon dukungannya Pak, kali ini kita pastikan eksekusinya matang dan saya butuh keahlian Bapak di sini.'",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 15,
+                        feedbackTitle: "Deposit Terdeteksi! (+15% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Anda memilih menunjukkan rasa hormat dan menghargai nilai pengalaman Pak Budi. Ini menaruh 'Tabungan Emosi' awal yang baik.",
+                        feedbackTheory: "Menurut Covey, salah satu setoran terbaik adalah memahami individu secara mendalam dan mencari masukan mereka secara tulus."
+                    },
+                    {
+                        text: "Membalas tegas: 'Kita semua di sini profesional. Tolong kurangi pesimisme dan fokus pada target masing-masing.'",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -15,
+                        feedbackTitle: "Tarikan Terdeteksi! (-15% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Menghakimi kekhawatiran orang lain secara publik akan membuat mereka defensif dan merusak tabungan rasa aman.",
+                        feedbackTheory: "Tarikan emosi yang fatal adalah bersikap tidak sopan atau kasar secara lisan kepada kolega, terutama yang senior."
+                    }
+                ],
+                hint: "Fokus pada pengakuan nilai kontribusi orang lain untuk mencairkan ketegangan awal."
+            },
+            {
+                id: 2,
+                difficulty: "Dasar (Mudah)",
+                difficultyStyle: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+                narrative: "Anda melihat Rara, staf desainer tim Anda yang sensitif, tampak murung setelah draf pertamanya diberi coretan keras tanpa arahan jelas oleh perwakilan klien.",
+                options: [
+                    {
+                        text: "Menemuinya secara privat, menanyakan perasaannya, dan mendampinginya merevisi draf agar sesuai ekspektasi klien.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 15,
+                        feedbackTitle: "Deposit Terdeteksi! (+15% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Mendampingi secara privat menunjukkan empati yang tulus dan mengembalikan rasa percaya diri Rara yang sempat turun.",
+                        feedbackTheory: "Memenuhi komitmen kecil dan menunjukkan kepedulian tulus kepada individu meningkatkan stabilitas psikologis tim secara masif."
+                    },
+                    {
+                        text: "Mengabaikannya dan mengirim chat: 'Rara, perbaiki gambarnya segera ya. Kita butuh cepat hari ini, jangan baperan.'",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -20,
+                        feedbackTitle: "Tarikan Terdeteksi! (-20% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Mengabaikan kondisi emosi dan menyebutnya 'baperan' menghancurkan kepercayaan interpersonal secara seketika.",
+                        feedbackTheory: "Tidak sensitif terhadap kebutuhan emosional anggota tim adalah bentuk tarikan paling cepat mematikan motivasi internal."
+                    }
+                ],
+                hint: "Gunakan pendekatan personal untuk melunakkan perasaan terluka anggota tim."
+            },
+            {
+                id: 3,
+                difficulty: "Menengah (Sedang)",
+                difficultyStyle: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+                narrative: "Klien internal menuntut perubahan fitur mendadak di luar cakupan dokumen proyek awal (scope creep). Bagaimana Anda menanganinya?",
+                options: [
+                    {
+                        text: "Mendengarkan keluhannya secara utuh, lalu menjelaskan batas kapasitas tim secara transparan dan menawarkan alternatif fase kedua.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 10,
+                        feedbackTitle: "Deposit Terdeteksi! (+10% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Klien merasa didengar, namun Anda tetap menjaga integritas serta batas sehat kapasitas operasional tim Anda sendiri.",
+                        feedbackTheory: "Mengklarifikasi ekspektasi secara terbuka adalah salah satu pilar membangun kredibilitas (Deposit) tanpa mengorbankan tim."
+                    },
+                    {
+                        text: "Langsung menyetujui agar klien senang, lalu mendesak tim Anda bekerja lembur semalaman tanpa kompensasi tambahan.",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -25,
+                        feedbackTitle: "Tarikan Terdeteksi! (-25% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Anda mungkin melakukan 'Setoran' semu ke klien, namun menarik habis saldo dari tim internal Anda sendiri hingga defisit.",
+                        feedbackTheory: "Gagal melindungi tim dari beban kerja tak realistis demi citra pribadi Anda di mata klien akan menghancurkan loyalitas tim."
+                    }
+                ],
+                hint: "Prioritaskan kejelasan batas kerja tim agar kepercayaan internal tetap terlindungi."
+            },
+            {
+                id: 4,
+                difficulty: "Menengah (Sedang)",
+                difficultyStyle: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+                narrative: "Terjadi kesalahan integrasi data oleh salah satu staf baru bernama Rian. Hal ini menyebabkan sistem uji coba sempat mati selama 2 jam.",
+                options: [
+                    {
+                        text: "Fokus pada pemulihan sistem bersama Rian, lalu membuat sesi review teknis privat dengannya untuk pencegahan tanpa menyalahkannya.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 15,
+                        feedbackTitle: "Deposit Terdeteksi! (+15% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Sikap tenang Anda dalam krisis menumbuhkan rasa aman (Trust) yang sangat tinggi bagi Rian untuk terus belajar.",
+                        feedbackTheory: "Toleransi atas kesalahan teknis yang tidak disengaja adalah wujud penegakan rasa aman yang mempercepat penyelesaian masalah."
+                    },
+                    {
+                        text: "Menegur keras Rian di grup WhatsApp besar agar semua anggota tim waspada dan tidak melakukan kesalahan konyol serupa.",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -20,
+                        feedbackTitle: "Tarikan Terdeteksi! (-20% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Mempermalukan orang di depan umum memicu rasa takut berlebih, membuat tim menyembunyikan kesalahan berikutnya.",
+                        feedbackTheory: "Menyalahkan pribadi secara terbuka (public shaming) menyerap habis saldo emosi dan mematikan keterbukaan komunikasi."
+                    }
+                ],
+                hint: "Bedakan antara kesalahan teknis dan integritas; bimbing privat untuk peningkatan kualitas."
+            },
+            {
+                id: 5,
+                difficulty: "Menengah (Sedang)",
+                difficultyStyle: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+                narrative: "Pak Budi (senior skeptis) mengusulkan metode analisis kuno yang memakan waktu lama, padahal ada modul digital baru yang jauh lebih efisien.",
+                options: [
+                    {
+                        text: "Menghargai landasan metodologi Pak Budi, kemudian mendiskusikan opsi digital sebagai alat bantu percepatan metodenya.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 10,
+                        feedbackTitle: "Deposit Terdeteksi! (+10% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Metode ini memadukan respek kepada senior sekaligus mengenalkan efisiensi teknologi secara elegan tanpa menggurui.",
+                        feedbackTheory: "Mencari sinergi yang saling menguntungkan (Win-Win) mengharuskan kita menghormati kontribusi dasar sebelum mengarahkan."
+                    },
+                    {
+                        text: "Menolak langsung: 'Pak Budi, cara itu sudah ketinggalan zaman. Sekarang tahun 2026, kita pakai yang serba otomatis saja.'",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -15,
+                        feedbackTitle: "Tarikan Terdeteksi! (-15% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Meremehkan usulan senior di depan rekan-rekan lain menciptakan resistensi terselubung (sabotase pasif) dari dirinya.",
+                        feedbackTheory: "Mengabaikan kehormatan profesional individu merupakan bentuk penarikan saldo emosi yang memicu konflik tersembunyi."
+                    }
+                ],
+                hint: "Gunakan pendekatan jembatan komunikasi, jangan meruntuhkan harga diri lawan bicara."
+            },
+            {
+                id: 6,
+                difficulty: "Tinggi (Sulit)",
+                difficultyStyle: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+                narrative: "Terdapat miskomunikasi antara tim internal Anda dan divisi infrastruktur IT pusat. Tim infrastruktur mengklaim tim Anda lambat memberikan data server.",
+                options: [
+                    {
+                        text: "Menghubungi PIC IT secara personal, meminta maaf atas ketidaknyamanan, dan menjadwalkan sinkronisasi data secepatnya.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 15,
+                        feedbackTitle: "Deposit Terdeteksi! (+15% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Mengakui andil tim sendiri dan mengambil inisiatif pemulihan meredakan defensif pihak lain dan memicu kolaborasi.",
+                        feedbackTheory: "Meminta maaf secara tulus ketika bersalah adalah salah satu setoran saldo emosi terbesar dan paling dihormati."
+                    },
+                    {
+                        text: "Menulis email balasan formal CC ke Direksi yang berisi daftar bukti-bukti chat bahwa divisi IT-lah yang lambat merespons.",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -20,
+                        feedbackTitle: "Tarikan Terdeteksi! (-20% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Mencari pembenaran dengan menyudutkan divisi lain hanya akan mengeskalasi politik kantor yang destruktif bagi proyek.",
+                        feedbackTheory: "Membela diri secara agresif (defensiveness) dan menyalahkan pihak lain mempercepat keruntuhan kepercayaan antar-divisi."
+                    }
+                ],
+                hint: "Selesaikan friksi kerja secara privat dan akomodatif, bukan mencari kambing hitam di depan atasan."
+            },
+            {
+                id: 7,
+                difficulty: "Tinggi (Sulit)",
+                difficultyStyle: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+                narrative: "Rara (staf desainer) mengeluhkan beban kerjanya yang menumpuk karena membantu tugas dari divisi lain tanpa sepengetahuan Anda.",
+                options: [
+                    {
+                        text: "Mengapresiasi dedikasinya, membantunya memprioritaskan tugas proyek utama, dan berjanji akan menyelaraskan hal ini dengan divisi lain.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 10,
+                        feedbackTitle: "Deposit Terdeteksi! (+10% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Langkah perlindungan ini memberikan kejelasan prioritas dan meyakinkan Rara bahwa kepemimpinan Anda suportif.",
+                        feedbackTheory: "Menepati janji serta membela kesejahteraan tim merupakan setoran rutin penting untuk loyalitas tingkat tinggi."
+                    },
+                    {
+                        text: "Marah: 'Kenapa kamu mau saja? Fokus saja ke pekerjaan kita di sini, jangan sok rajin urus kerjaan divisi lain!'",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -15,
+                        feedbackTitle: "Tarikan Terdeteksi! (-15% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Alih-alih merasa terbantu, Rara akan merasa bersalah dan takut untuk terbuka lagi kepada Anda mengenai masalah beban kerja.",
+                        feedbackTheory: "Kemarahan atas inisiatif tim—meskipun salah sasaran—adalah tarikan saldo emosi yang memicu sikap tertutup."
+                    }
+                ],
+                hint: "Tunjukkan empati terlebih dahulu atas kelelahan yang ia alami sebelum mengoreksi alur kerja."
+            },
+            {
+                id: 8,
+                difficulty: "Tinggi (Sulit)",
+                difficultyStyle: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+                narrative: "Anda membuat janji untuk melakukan review progres mingguan bersama seluruh anggota tim pada hari Jumat jam 16.00, namun atasan Anda tiba-tiba memanggil rapat darurat di waktu yang persis sama.",
+                options: [
+                    {
+                        text: "Mengirim pesan singkat ke grup tim berisi permohonan maaf, menjelaskan situasi darurat, dan menjadwal ulang ke hari Senin pagi.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 15,
+                        feedbackTitle: "Deposit Terdeteksi! (+15% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Menghormati waktu tim Anda dengan memberikan kabar transparan dan maaf tulus menjaga kredibilitas janji Anda.",
+                        feedbackTheory: "Integritas pribadi diukur dari cara kita memperlakukan komitmen kecil kita terhadap orang-orang di bawah kita."
+                    },
+                    {
+                        text: "Langsung pergi ke rapat direksi tanpa memberi kabar ke tim, membiarkan mereka menunggu di ruang rapat virtual selama 45 menit.",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -25,
+                        feedbackTitle: "Tarikan Terdeteksi! (-25% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Mengabaikan waktu tim seolah waktu mereka tidak berharga merupakan penghinaan halus yang menurunkan moralitas kerja.",
+                        feedbackTheory: "Ketidakhadiran tanpa kejelasan (broken commitments) menyedot habis rasa aman psikologis dalam kepemimpinan."
+                    }
+                ],
+                hint: "Menghargai waktu tim sama pentingnya dengan menghargai waktu atasan."
+            },
+            {
+                id: 9,
+                difficulty: "Sangat Tinggi (Ahli)",
+                difficultyStyle: "bg-red-500/10 text-red-400 border-red-500/20",
+                narrative: "Pak Budi akhirnya berhasil mengadopsi modul digital dan memberikan masukan optimasi server yang brilian, yang sangat membantu tim menghemat waktu kerja.",
+                options: [
+                    {
+                        text: "Memuji kontribusi Pak Budi secara eksplisit di forum resmi mingguan dan mengakui dukungannya sebagai kunci sukses.",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 20,
+                        feedbackTitle: "Deposit Maksimal! (+20% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Pak Budi merasa sangat dihargai. Hambatan skeptisnya kini berubah sepenuhnya menjadi dukungan kolaboratif aktif.",
+                        feedbackTheory: "Apresiasi publik yang tulus dan jujur adalah pengungkit saldo emosional yang melipatgandakan kepercayaan tim."
+                    },
+                    {
+                        text: "Hanya mengangguk saat rapat dan berkata: 'Bagus Pak, memang sudah seharusnya tim kita bekerja secepat itu.'",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -10,
+                        feedbackTitle: "Tarikan Ringan! (-10% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Mengabaikan kontribusi istimewa tim dan menganggapnya sekadar kewajiban biasa menyurutkan motivasi ekstra mereka.",
+                        feedbackTheory: "Gagal memberikan pengakuan tulus (lack of appreciation) adalah tarikan emosi yang memicu tim bekerja seadanya."
+                    }
+                ],
+                hint: "Apresiasi publik yang jujur merupakan kunci merangkul kembali anggota yang skeptis."
+            },
+            {
+                id: 10,
+                difficulty: "Sangat Tinggi (Ahli)",
+                difficultyStyle: "bg-red-500/10 text-red-400 border-red-500/20",
+                narrative: "Dua hari menjelang perilisan final, terjadi bug kritis tak terduga pada server database. Seluruh anggota tim panik dan mulai saling menyalahkan.",
+                options: [
+                    {
+                        text: "Mengumpulkan tim, menegaskan 'Saya bertanggung jawab penuh atas rilis ini. Mari fokus cari solusi bersama selama 1 jam ke depan.'",
+                        isCorrect: true,
+                        score: 10,
+                        balanceChange: 25,
+                        feedbackTitle: "Deposit Sempurna! (+25% Saldo)",
+                        feedbackType: "Deposit",
+                        feedbackDesc: "Tanggung jawab ekstrem dari Anda melahirkan rasa aman psikologis mutlak, menghentikan kepanikan, dan menyatukan tim kembali.",
+                        feedbackTheory: "Bertanggung jawab penuh atas kegagalan tim adalah puncak setoran emosional dari seorang pemimpin sejati."
+                    },
+                    {
+                        text: "Meminta tim mencari siapa penanggung jawab kode terakhir yang bermasalah dan mengancam sanksi SP jika rilis tertunda.",
+                        isCorrect: false,
+                        score: 0,
+                        balanceChange: -30,
+                        feedbackTitle: "Tarikan Kritis! (-30% Saldo)",
+                        feedbackType: "Withdrawal",
+                        feedbackDesc: "Mencari kambing hitam dan menebar ancaman di menit akhir merusak mentalitas tim secara permanen.",
+                        feedbackTheory: "Menebar ancaman di masa krisis adalah penarikan saldo emosi terdalam yang meruntuhkan totalitas loyalitas tim."
+                    }
+                ],
+                hint: "Ambil tanggung jawab puncak di masa kritis untuk menciptakan lingkungan aman yang solutif."
+            }
+        ];
+
+        // Global Game States
+        let currentScenarioIndex = 0;
+        let emotionalBalance = 50; // Dimulai dari netral 50%
+        let totalScore = 0;
+        let totalDeposits = 0;
+        let totalWithdrawals = 0;
+        let userName = "Alex";
+        let userNik = "";
+
+        // Elements
+        const screenGateway = document.getElementById('screen-gateway');
+        const screenBriefing = document.getElementById('screen-briefing');
+        const screenGame = document.getElementById('screen-game');
+        const screenDebrief = document.getElementById('screen-debrief');
+        const feedbackModal = document.getElementById('feedback-modal');
+
+        // Form Submission Gateway
+        function submitGateway(event) {
+            event.preventDefault();
+            userName = document.getElementById('input-name').value;
+            userNik = document.getElementById('input-nik').value;
+
+            // Inisialisasi Audio on interaction
+            initAudio();
+
+            // Set data ke Briefing Screen
+            document.getElementById('briefing-user-name').innerText = userName;
+            document.getElementById('briefing-user-nik').innerText = userNik;
+
+            // Transisi Visual smooth ke Briefing
+            screenGateway.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                screenGateway.classList.add('hidden');
+                screenBriefing.classList.remove('hidden');
+                setTimeout(() => {
+                    screenBriefing.classList.remove('scale-95', 'opacity-0');
+                    screenBriefing.classList.add('scale-100', 'opacity-100');
+                }, 50);
+            }, 300);
+        }
+
+        // Mulai Game Utama
+        function startGame() {
+            // Set Profil Dashboard
+            document.getElementById('player-profile-name').innerText = userName;
+            document.getElementById('player-profile-nik').innerText = "NIK: " + userNik;
+            document.getElementById('user-avatar').innerText = userName.charAt(0).toUpperCase();
+
+            // Reset Game Stat
+            currentScenarioIndex = 0;
+            emotionalBalance = 50;
+            totalScore = 0;
+            totalDeposits = 0;
+            totalWithdrawals = 0;
+
+            updateStatsDisplay();
+
+            // Transisi dari Briefing ke Gameplay Screen
+            screenBriefing.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                screenBriefing.classList.add('hidden');
+                screenGame.classList.remove('hidden');
+                loadScenario();
+            }, 300);
+        }
+
+        // Muat Data Skenario Berdasarkan Indeks Aktif
+        function loadScenario() {
+            if (currentScenarioIndex >= scenarios.length) {
+                endGame();
+                return;
+            }
+
+            const currentScenario = scenarios[currentScenarioIndex];
+            
+            // Atur Visual Elemen Skenario
+            const diffBadge = document.getElementById('scenario-difficulty');
+            diffBadge.innerText = `Skenario ${currentScenario.difficulty} (${currentScenarioIndex + 1}/10)`;
+            diffBadge.className = `text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full ${currentScenario.difficultyStyle}`;
+
+            document.getElementById('scenario-index-label').innerText = currentScenarioIndex + 1;
+            document.getElementById('scenario-text').innerText = currentScenario.narrative;
+            document.getElementById('scenario-hint').innerText = currentScenario.hint;
+
+            // Render Pilihan Opsi Secara Dinamis
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentScenario.options.forEach((option, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl glass-card border border-slate-700/60 hover:border-sky-500/60 hover:bg-sky-500/5 text-slate-200 hover:text-white transition-all duration-300 transform active:scale-[0.99] text-sm leading-relaxed flex items-start gap-3 focus:outline-none focus:ring-1 focus:ring-sky-500";
+                
+                // Urutan Alfabetik
+                const alphabet = idx === 0 ? "A" : "B";
+                
+                btn.innerHTML = `
+                    <span class="flex-shrink-0 w-6 h-6 rounded-lg bg-slate-800/80 border border-slate-700 flex items-center justify-center text-xs font-bold text-sky-400">
+                        ${alphabet}
+                    </span>
+                    <span class="flex-1">${option.text}</span>
+                `;
+                btn.onclick = () => chooseOption(option);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Update Progress Bar Game
+            const progressPercent = Math.round((currentScenarioIndex / scenarios.length) * 100);
+            document.getElementById('progress-percent').innerText = `${progressPercent}% Selesai`;
+            document.getElementById('progress-fraction').innerText = `${currentScenarioIndex}/10 Tantangan`;
+            document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
+
+            // Evaluasi lencana yang terbuka di tengah permainan
+            checkBadgesInGame();
+        }
+
+        // Aksi Memilih Keputusan
+        function chooseOption(option) {
+            // Kalkulasi skor dan saldo emosi baru
+            totalScore += option.score;
+            emotionalBalance = Math.max(0, Math.min(100, emotionalBalance + option.balanceChange));
+
+            if (option.isCorrect) {
+                totalDeposits++;
+                playSFXDeposit();
+            } else {
+                totalWithdrawals++;
+                playSFXWithdrawal();
+            }
+
+            // Tampilkan Feedback Instan dalam Modal Pop-up
+            const badgeType = document.getElementById('feedback-type-badge');
+            badgeType.innerText = option.feedbackType === "Deposit" ? "Deposit (+)" : "Tarikan (-)";
+            if (option.feedbackType === "Deposit") {
+                badgeType.className = "text-xs font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+            } else {
+                badgeType.className = "text-xs font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30";
+            }
+
+            document.getElementById('feedback-score-gained').innerText = `+${option.score} Poin`;
+            document.getElementById('feedback-title').innerText = option.feedbackTitle;
+            document.getElementById('feedback-desc').innerText = option.feedbackDesc;
+            document.getElementById('feedback-theory').innerText = option.feedbackTheory;
+
+            // Buka Modal dengan transisi visual
+            feedbackModal.classList.remove('hidden');
+            setTimeout(() => {
+                feedbackModal.querySelector('.glass-panel').classList.remove('scale-95', 'opacity-0');
+                feedbackModal.querySelector('.glass-panel').classList.add('scale-100', 'opacity-100');
+            }, 50);
+
+            // Perbarui live stats bar samping
+            updateStatsDisplay();
+        }
+
+        // Tutup Modal dan Lanjutkan
+        function closeFeedbackAndContinue() {
+            feedbackModal.querySelector('.glass-panel').classList.add('scale-95', 'opacity-0');
+            feedbackModal.querySelector('.glass-panel').classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                feedbackModal.classList.add('hidden');
+                currentScenarioIndex++;
+                loadScenario();
+            }, 250);
+        }
+
+        // Live Update Indikator & Saldo Emosi
+        function updateStatsDisplay() {
+            document.getElementById('emotional-balance-value').innerText = `${emotionalBalance}%`;
+            document.getElementById('score-text').innerText = `${totalScore} Poin`;
+
+            // Atur Visual Cairan Liquid Glassmorphism
+            const liquid = document.getElementById('balance-liquid-fill');
+            liquid.style.height = `${emotionalBalance}%`;
+
+            // Label Status & Efek Berpendar Ring
+            const circleText = document.getElementById('balance-circle-text');
+            const circle = document.getElementById('balance-circle');
+            
+            // Hapus kelas warna ring sebelumnya
+            circle.classList.remove('border-slate-800', 'border-emerald-500', 'border-amber-500', 'border-rose-500', 'pulse-glow-blue');
+
+            if (emotionalBalance >= 75) {
+                circleText.innerText = "Sangat Tinggi";
+                circleText.className = "text-xs text-emerald-400 uppercase tracking-widest font-black z-10";
+                circle.classList.add('border-emerald-500', 'pulse-glow-blue');
+            } else if (emotionalBalance >= 55) {
+                circleText.innerText = "Tinggi";
+                circleText.className = "text-xs text-sky-400 uppercase tracking-widest font-bold z-10";
+                circle.classList.add('border-sky-500');
+            } else if (emotionalBalance >= 40) {
+                circleText.innerText = "Netral";
+                circleText.className = "text-xs text-slate-300 uppercase tracking-widest font-bold z-10";
+                circle.classList.add('border-slate-800');
+            } else if (emotionalBalance >= 20) {
+                circleText.innerText = "Rendah";
+                circleText.className = "text-xs text-amber-500 uppercase tracking-widest font-bold z-10";
+                circle.classList.add('border-amber-500');
+            } else {
+                circleText.innerText = "Defisit Kritis";
+                circleText.className = "text-xs text-rose-500 uppercase tracking-widest font-black z-10";
+                circle.classList.add('border-rose-500');
+            }
+        }
+
+        // Pemeriksaan lencana live di layar gameplay
+        function checkBadgesInGame() {
+            const badgeNovice = document.getElementById('badge-novice');
+            const badgeTrustee = document.getElementById('badge-trustee');
+            const badgeEmpathy = document.getElementById('badge-empathy');
+
+            // 1. Lencana Novice: Menyelesaikan 3 Skenario pertama
+            if (currentScenarioIndex >= 3) {
+                badgeNovice.classList.remove('opacity-30', 'grayscale', 'bg-slate-800');
+                badgeNovice.classList.add('bg-amber-900/40', 'text-amber-300', 'border-amber-700/50');
+            }
+            // 2. Lencana Trustee: Menyelesaikan 6 Skenario pertama dengan saldo >= 60%
+            if (currentScenarioIndex >= 6 && emotionalBalance >= 60) {
+                badgeTrustee.classList.remove('opacity-30', 'grayscale', 'bg-slate-800');
+                badgeTrustee.classList.add('bg-sky-900/40', 'text-sky-300', 'border-sky-700/50');
+            }
+            // 3. Lencana Champion: Menyelesaikan 9 Skenario dengan saldo >= 75%
+            if (currentScenarioIndex >= 9 && emotionalBalance >= 75) {
+                badgeEmpathy.classList.remove('opacity-30', 'grayscale', 'bg-slate-800');
+                badgeEmpathy.classList.add('bg-emerald-900/40', 'text-emerald-300', 'border-emerald-700/50');
+            }
+        }
+
+        // Penyelesaian Game - Penentuan Ending Berdasarkan Saldo Emosi
+        function endGame() {
+            // Sembunyikan Layar Gameplay Utama
+            screenGame.classList.add('hidden');
+            screenDebrief.classList.remove('hidden');
+
+            // Update Statistik Akhir Debrief
+            document.getElementById('final-balance').innerText = `${emotionalBalance}%`;
+            document.getElementById('final-score').innerText = `${totalScore} / 100`;
+            document.getElementById('final-deposits').innerText = totalDeposits;
+            document.getElementById('final-withdrawals').innerText = totalWithdrawals;
+
+            const endingCard = document.getElementById('ending-card');
+            const endingTitle = document.getElementById('ending-title');
+            const endingDescription = document.getElementById('ending-description');
+
+            const finalBadgeIcon = document.getElementById('final-badge-icon');
+            const finalBadgeTitle = document.getElementById('final-badge-title');
+            const finalReinforcement = document.getElementById('final-reinforcement');
+
+            // Percabangan Ending (Branching Ending berdasarkan Saldo)
+            if (emotionalBalance >= 70) {
+                // GOOD ENDING: Trust Terbangun Sempurna
+                endingCard.className = "glass-card rounded-2xl p-6 border-l-4 border-emerald-500 bg-emerald-950/10";
+                endingTitle.innerText = "🏆 TRUST-BASED GOOD ENDING: Peluncuran Sukses & Tim Solid!";
+                endingDescription.innerHTML = `
+                    Selamat! Anda berhasil menjaga saldo emosi tim di angka <strong class="text-emerald-400">${emotionalBalance}%</strong>. 
+                    Saat terjadi bug kritis di akhir pekan proyek, seluruh tim dengan sukarela bertahan hingga larut malam karena mereka merasa aman secara psikologis dan dihargai. 
+                    Pak Budi secara proaktif mendampingi Rian, sementara Rara bekerja dengan semangat tinggi. Proyek Sinergi resmi diluncurkan tepat waktu dengan kualitas luar biasa!
+                `;
+
+                finalBadgeIcon.innerText = "👑";
+                finalBadgeTitle.innerText = "SYNERGISTIC LEADER CHAMPION";
+                finalReinforcement.innerText = "Anda membuktikan bahwa kepemimpinan transformasional sejati bukanlah tentang memaksa orang bekerja cepat, melainkan memelihara rasa saling percaya (Trust) yang mempercepat pemecahan masalah.";
+            } else if (emotionalBalance >= 45) {
+                // NEUTRAL ENDING: Proyek Selesai dengan Hambatan Hubungan
+                endingCard.className = "glass-card rounded-2xl p-6 border-l-4 border-amber-500 bg-amber-950/10";
+                endingTitle.innerText = "⚖️ TRANS-ACTIONAL ENDING: Proyek Selesai, Namun Tim Lelah";
+                endingDescription.innerHTML = `
+                    Proyek Sinergi berhasil diluncurkan tepat waktu dengan saldo akhir Anda sebesar <strong class="text-amber-400">${emotionalBalance}%</strong>. 
+                    Namun, tidak banyak rasa aman yang tersisa. Tim bersedia lembur menyelesaikan bug kritis hanya karena takut mendapatkan konsekuensi administratif atau dipersalahkan. 
+                    Meskipun target teknis tercapai, tingkat kelelahan emosional tim sangat tinggi, dan komunikasi menjadi sangat formal serta kaku.
+                `;
+
+                finalBadgeIcon.innerText = "🎖️";
+                finalBadgeTitle.innerText = "TRANSACTIONAL MANAGER";
+                finalReinforcement.innerText = "Upayakan untuk beralih dari sekadar menyuruh bawahan bekerja ke hubungan yang dilandasi saling menghormati tulus. Saldo emosional yang tinggi menjamin kelangsungan kolaborasi jangka panjang.";
+            } else {
+                // BAD ENDING: Hubungan Hancur & Proyek Gagal Total
+                endingCard.className = "glass-card rounded-2xl p-6 border-l-4 border-rose-500 bg-rose-950/10";
+                endingTitle.innerText = "🚨 TRUST-BANKRUPT BAD ENDING: Proyek Ditunda & Tim Terpecah";
+                endingDescription.innerHTML = `
+                    Proyek Sinergi gagal dirilis tepat waktu karena saldo emosi Anda bangkrut di angka <strong class="text-rose-400">${emotionalBalance}%</strong>. 
+                    Ketika bug kritis terdeteksi di akhir pekan, Rian menyembunyikan kesalahannya karena takut dihukum, sedangkan Pak Budi memilih lepas tangan secara pasif. 
+                    Anggota tim saling melempar tuduhan dan berujung saling menyalahkan secara terbuka. Klien menarik kerja sama dan Anda kehilangan kredibilitas.
+                `;
+
+                finalBadgeIcon.innerText = "⚠️";
+                finalBadgeTitle.innerText = "LOW-TRUST SUPERVISOR";
+                finalReinforcement.innerText = "Bila saldo emosional Anda defisit, tim akan berkomunikasi secara tertutup dan defensif. Pelajari kembali materi 'The Emotional Bank Account' Stephen Covey dan coba skenario ini sekali lagi.";
+            }
+
+            // Animasi kemunculan layar akhir debrief
+            setTimeout(() => {
+                screenDebrief.classList.remove('scale-95', 'opacity-0');
+                screenDebrief.classList.add('scale-100', 'opacity-100');
+            }, 50);
+        }
+
+        // Reset & Ulangi Permainan dari Awal
+        function restartGame() {
+            screenDebrief.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                screenDebrief.classList.add('hidden');
+                screenBriefing.classList.remove('hidden');
+                setTimeout(() => {
+                    screenBriefing.classList.remove('scale-95', 'opacity-0');
+                    screenBriefing.classList.add('scale-100', 'opacity-100');
+                }, 50);
+            }, 300);
+        }
+
+        // Integrasi LMS - Ekspor Nilai & Data Pembelajaran
+        function exportResultToLMS() {
+            const dataResult = {
+                appId: "PROYEK-SINERGI-EMOTIONAL-BANK",
+                userName: userName,
+                nik: userNik,
+                score: totalScore,
+                finalBalance: emotionalBalance,
+                totalCorrectDeposits: totalDeposits,
+                totalIncorrectWithdrawals: totalWithdrawals,
+                timestamp: new Date().toISOString()
+            };
+
+            // Menampilkan info penyerahan data (LMS Mock integration)
+            const resultBox = document.createElement('div');
+            resultBox.className = "fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4";
+            resultBox.innerHTML = `
+                <div class="glass-panel rounded-3xl max-w-md w-full p-6 text-center">
+                    <span class="text-3xl">🚀</span>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-2">Mengirim Nilai Ke LMS...</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-6">
+                        Menyinkronkan hasil pengerjaan kuis interaktif Anda dengan buku nilai LMS internal perusahaan.
+                    </p>
+                    
+                    <div class="bg-slate-900/80 rounded-xl p-4 text-left border border-slate-800 text-xs text-slate-300 font-mono space-y-1 mb-6">
+                        <p><strong>NAMA:</strong> ${dataResult.userName}</p>
+                        <p><strong>NIK:</strong> ${dataResult.nik}</p>
+                        <p><strong>SKOR KUIS:</strong> ${dataResult.score} / 100</p>
+                        <p><strong>SALDO EMOSI:</strong> ${dataResult.finalBalance}%</p>
+                        <p><strong>STATUS:</strong> BERHASIL DIKIRIM</p>
+                    </div>
+
+                    <button onclick="this.parentElement.parentElement.remove()" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold text-sm">
+                        KEMBALI KE METRICS SCREEN
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(resultBox);
+
+            // Log output ke konsol pengembang untuk debugging LMS
+            console.log("LMS Integration Data Payload Sent:", dataResult);
+        }
+    </script>
+</body>
+</html>
